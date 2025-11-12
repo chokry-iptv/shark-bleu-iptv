@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse 
 from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.conf import settings
