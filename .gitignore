@@ -16,7 +16,7 @@ env/
 Thumbs.db
 
 # ملفات النشر
-staticfiles/
+
 media/
 
 # ملفات البيئة
