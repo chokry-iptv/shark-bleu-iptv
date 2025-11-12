@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ series.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .banner {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .banner img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .episodes {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .episode-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        .episode-info h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        .season {
+            color: #777;
+            font-size: 14px;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            color: #1976d2;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'content:home' %}" class="back-link">← العودة إلى الصفحة الرئيسية</a>
+
+    <div class="banner">
+        <img src="{{ series.thumbnail|default:'https://via.placeholder.com/200x300?text=📺' }}" alt="{{ series.title }}">
+        <h1>{{ series.title }}</h1>
+        <p>{{ series.description|default:"لا يوجد وصف" }}</p>
+    </div>
+
+    <h2>قائمة الحلقات</h2>
+    <div class="episodes">
+        {% for episode in episodes %}
+            <div class="episode-card">
+                <div class="episode-info">
+                    <h3>{{ episode.title }}</h3>
+                    <div class="season">الموسم {{ episode.season_number }} • الحلقة {{ episode.episode_number }}</div>
+                </div>
+                <a href="{% url 'content:watch_episode' episode.id %}" 
+                   style="align-self: center; color: #1976d2; text-decoration: none; font-weight: bold;">
+                    مشاهدة →
+                </a>
+            </div>
+        {% empty %}
+            <p style="text-align: center; color: #777;">لا توجد حلقات بعد.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

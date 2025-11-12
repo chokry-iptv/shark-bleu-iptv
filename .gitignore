@@ -1,0 +1,25 @@
+# قاعدة البيانات
+db.sqlite3
+
+# المجلدات المترجمة
+__pycache__/
+*.pyc
+*.pyo
+
+# بيئة الافتراضية
+venv/
+env/
+.venv/
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+
+# ملفات النشر
+staticfiles/
+media/
+
+# ملفات البيئة
+.env
+.env.local
+.env.*.local

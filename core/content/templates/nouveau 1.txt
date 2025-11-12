@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصتك السينمائية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #141414;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e50914;
+        }
+        .section {
+            margin: 40px 0;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        .slider::-webkit-scrollbar {
+            display: none;
+        }
+        .card {
+            min-width: 180px;
+            height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 10px;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+        .view-all {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .view-all a {
+            color: #7d7d7d;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .view-all a:hover {
+            color: #fff;
+        }
+        .empty-message {
+            color: #777;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">🎬 منصتك</div>
+    </header>
+
+    <!-- البث المباشر حسب البلد -->
+    {% for country, streams in grouped_streams.items %}
+        {% if streams %}
+        <div class="section">
+            <h2 class="section-title">📡 {{ country }}</h2>
+            <div class="slider">
+                {% for stream in streams %}
+                    <a href="{% url 'content:watch_live' stream.id %}" style="text-decoration: none; color: inherit;">
+                        <div class="card">
+                            <img src="{{ stream.thumbnail|default:'https://via.placeholder.com/180x250?text=📡+Live' }}" alt="{{ stream.title }}">
+                            <div class="card-overlay">{{ stream.title }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% empty %}
+        <div class="section">
+            <h2 class="section-title">📡 البث المباشر</h2>
+            <div class="empty-message">لا توجد قنوات متاحة حاليًا.</div>
+        </div>
+    {% endfor %}
+
+    <!-- الأفلام -->
+    <div class="section">
+        <h2 class="section-title">🎥 الأفلام الجديدة</h2>
+        <div class="slider">
+            {% for movie in movies %}
+                <a href="{% url 'content:watch_movie' movie.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <img src="{{ movie.thumbnail|default:'https://via.placeholder.com/180x250?text=🎬+Film' }}" alt="{{ movie.title }}">
+                        <div class="card-overlay">{{ movie.title }}</div>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="empty-message">لا توجد أفلام</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- المسلسلات -->
+    <div class="section">
+        <h2 class="section-title">📺 المسلسلات</h2>
+        <div class="slider">
+            {% for series in series %}
+                <a href="{% url 'content:series_detail' series.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <img src="{{ series.thumbnail|default:'https://via.placeholder.com/180x250?text=📺+Series' }}" alt="{{ series.title }}">
+                        <div class="card-overlay">{{ series.title }}</div>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="empty-message">لا توجد مسلسلات</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; color: #555; font-size: 14px;">
+        © 2025 منصتك. جميع الحقوق محفوظة.
+    </footer>
+</body>
+</html>

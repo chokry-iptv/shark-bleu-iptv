@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>🔒 أدخل كود الاشتراك</title>
+    <style>
+        body {
+            background: #141414; color: white; font-family: Arial;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0;
+        }
+        .form-box {
+            background: #222; padding: 30px; border-radius: 12px;
+            width: 300px; text-align: center;
+        }
+        h2 { margin-bottom: 20px; color: #e50914; }
+        input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            border: none; border-radius: 6px; background: #333; color: white;
+        }
+        button {
+            width: 100%; padding: 12px; background: #e50914;
+            border: none; border-radius: 6px; color: white; font-weight: bold;
+            cursor: pointer;
+        }
+        .error { color: #ff6b6b; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2>🔐 أدخل كود الاشتراك</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="access_code" placeholder="أدخل الكود هنا" required>
+            <button type="submit">دخول</button>
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
