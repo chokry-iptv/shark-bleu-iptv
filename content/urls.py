@@ -31,3 +31,4 @@ if settings.DEBUG:
     urlpatterns += [
         path('debug/', views.debug_movies, name='debug_movies'),
     ]
+path('create-admin/', views.create_admin, name='create_admin'),

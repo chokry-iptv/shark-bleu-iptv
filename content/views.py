@@ -191,6 +191,20 @@ def subscriber_profile(request):
     })
 
 
+
+def create_admin(request):
+    User = get_user_model()
+    username = "admin"
+    email = "admin@example.com"
+    password = "SecurePass123!"  # ⚠️ غيّر هذا فور الدخول!
+    
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username, email, password)
+        return HttpResponse(f"✅ تم إنشاء الحساب:<br>اسم المستخدم: {username}<br>كلمة المرور: {password}")
+    return HttpResponse("⚠️ الحساب موجود مسبقًا")
+
+
+
 # ================================
 # Debug (للتطوير فقط)
 # ================================
